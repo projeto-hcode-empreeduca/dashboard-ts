@@ -15,9 +15,3 @@ export const usersTable = [{
     status: "Offline",
     dtregister: "2018-05-01",
 }];
-
-export const menusTable = [{
-    name: "Dashboard",
-    icon: "dashboard",
-    href: "../pages/dashboard.html",
-}];
