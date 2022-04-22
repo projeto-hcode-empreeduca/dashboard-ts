@@ -53,6 +53,7 @@
   },
   "homepage": "http://creative-tim.com/product/material-dashboard",
   "dependencies": {
-    "firebase": "^9.6.11"
+    "firebase": "^9.6.11",
+    "uuid": "^8.3.2"
   }
 }
