@@ -78,7 +78,7 @@ function renderRow(file) {
         <div>
           <img
            
-            src="../assets/img/small-logos/logo-asana.svg"
+            src="./assets/img/small-logos/logo-asana.svg"
             class="avatar avatar-sm rounded-circle me-2"
             alt="spotify"
           />

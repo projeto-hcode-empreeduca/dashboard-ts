@@ -14,7 +14,7 @@ asideMenu.innerHTML = `
   <div class="sidenav-header">
     <i class="fas fa-times p-3 cursor-pointer text-white opacity-5 position-absolute end-0 top-0 d-none d-xl-none" aria-hidden="true" id="iconSidenav"></i>
     <a class="navbar-brand m-0" href=" https://demos.creative-tim.com/material-dashboard/pages/dashboard " target="_blank">
-      <img src="../assets/img/empreeduca.png" class="navbar-brand-img h-100" alt="Dashboard Empreeduca" style="background-color: #fff; border-radius: 6px;">
+      <img src="./assets/img/empreeduca.png" class="navbar-brand-img h-100" alt="Dashboard Empreeduca" style="background-color: #fff; border-radius: 6px;">
       <span class="ms-1 font-weight-bold text-white">Dashboard Empreeduca</span>
     </a>
   </div>
