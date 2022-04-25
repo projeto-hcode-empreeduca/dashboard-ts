@@ -1,8 +1,9 @@
 import { collection, getFirestore, onSnapshot } from "firebase/firestore";
+import { IMenu } from "./interfaces/Imenu";
 
 const database = getFirestore();
 
-let menus = [];
+let menus: IMenu[] = [];
 
 const asideMenu = document.createElement("aside");
 
@@ -52,7 +53,7 @@ function renderMenu() {
   
     liMenu.className = "nav-item";
   
-    liMenu.innerHTML = `        
+    liMenu.innerHTML = `       
       <a class="nav-link text-white ${classActive}" href="${menu.href}">
         <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
           <i class="material-icons opacity-10">${menu.icon}</i>
@@ -74,7 +75,15 @@ onSnapshot(collection(database, "menus"), (data) => {
   menus = [];
 
   data.forEach(document => {
-    menus.push(document.data());
+    menus.push(document.data() as IMenu);
+    /*
+    const documentData = document.data();
+    menus.push({
+      href: documentData["href"],
+      icon: documentData["icon"],
+      name: documentData["name"],
+    });
+    */
   });
 
   renderMenu();

@@ -1,9 +1,10 @@
 import { collection, deleteDoc, doc, getFirestore, onSnapshot, setDoc, updateDoc } from "firebase/firestore";
 import { v4 as uuidv4 } from "uuid";
+import { IUser } from "./interfaces/Iuser";
 
 const database = getFirestore();
 
-let users = [];
+let users: IUser[] = [];
 
 const tableUsers = document.querySelector("table#table-users tbody");
 
@@ -108,12 +109,23 @@ onSnapshot(collection(database, "users"), (data) => {
 
     users = [];
 
-    data.forEach(document => {        
-        const object = {
-            ...document.data(),
+    data.forEach(document => {
+        
+        const documentData = document.data();
+
+        const object: IUser = {
+            name: documentData.name,
+            department: documentData.department,
+            email: documentData.email,
+            job: documentData.job,
+            register: documentData.register,
+            status: documentData.status,
+            photo: documentData.photo,
             id: document.id,
         };
+
         users.push(object);
+        
     });
 
     renderUsers();

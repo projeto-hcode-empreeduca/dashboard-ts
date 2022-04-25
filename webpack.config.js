@@ -1,11 +1,13 @@
+const path = require("path");
+
 module.exports = {
     mode: "development",
-    entry: "./scripts/index.js",
+    entry: "./public/typescript/index.ts",
     output: {
         filename: "bundle.js",
     },
     resolve: {
-        extensions: ['.js'],
+        extensions: ['.ts', '.js'],
     },
     module: {
         rules: [
@@ -18,5 +20,8 @@ module.exports = {
     },
     devServer: {
         writeToDisk: true,
+        static: {
+            directory: path.join(__dirname, "public"),
+        },
     },
 };
