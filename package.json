@@ -39,6 +39,7 @@
     "url": "https://github.com/creativetimofficial/material-dashboard/issues"
   },
   "devDependencies": {
+    "@types/bootstrap": "^5.1.10",
     "@types/uuid": "^8.3.4",
     "gulp": "^4.0.2",
     "gulp-autoprefixer": "^7.0.1",
@@ -56,6 +57,7 @@
   },
   "homepage": "http://creative-tim.com/product/material-dashboard",
   "dependencies": {
+    "bootstrap": "^5.1.3",
     "firebase": "^9.6.11",
     "uuid": "^8.3.2"
   }
