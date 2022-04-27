@@ -1,16 +1,19 @@
 import { Modal } from "bootstrap";
 import { collection, deleteDoc, doc, getFirestore, onSnapshot, setDoc, updateDoc } from "firebase/firestore";
+import { getDownloadURL, getStorage, ref, uploadBytes } from "firebase/storage";
 import { v4 as uuidv4 } from "uuid";
 import { IUser } from "./interfaces/Iuser";
 
 const database = getFirestore();
+const storage = getStorage();
 
 let users: IUser[] = [];
 
 const tableUsers = document.querySelector<HTMLTableElement>("table#table-users tbody");
 
-const modalUsersCreate = new Modal(document.getElementById('modal-users-create') as HTMLElement, {});
+const modalUsersCreate = new Modal(document.querySelector('#modal-users-create') as HTMLElement, {});
 const formUsersCreate = document.querySelector<HTMLFormElement>("#modal-users-create #form-users-create");
+const btnOpenModal = document.querySelector<HTMLButtonElement>("#open-modal-create");
 
 const modalUsersUpdate = new Modal(document.querySelector("#modal-users-update") as HTMLElement, {});
 const formUsersUpdate = document.querySelector<HTMLFormElement>("#form-users-update");
@@ -33,7 +36,7 @@ function renderUsers() {
                 <td>
                     <div class="d-flex px-2 py-1">
                         <div>
-                            <img src="${item.photo ? "./assets/img/" + item.photo : "./assets/img/tesla-model-s.png"}" class="avatar avatar-sm me-3 border-radius-lg" alt="${item.name}">
+                            <img src="${item.photo ? item.photo : "./assets/img/tesla-model-s.png"}" class="avatar avatar-sm me-3 border-radius-lg" alt="${item.name}">
                         </div>
                         <div class="d-flex flex-column justify-content-center">
                             <h6 class="mb-0 text-sm">${item.name}</h6>
@@ -144,7 +147,7 @@ if (tableUsers) {
                 email: documentData.email,
                 job: documentData.job,
                 register: documentData.register,
-                status: documentData.status,
+                status: Boolean(+documentData.status),
                 photo: documentData.photo,
                 id: document.id,
             };
@@ -156,6 +159,12 @@ if (tableUsers) {
         renderUsers();
     
     });
+
+    if (btnOpenModal) {
+
+        btnOpenModal.addEventListener("click", () => modalUsersCreate.show());
+
+    }
     
     if (formUsersCreate) {
 
@@ -189,14 +198,44 @@ if (tableUsers) {
                 console.error("O status é obrigatório.");
                 return false;
             }
+
+            const id = uuidv4();
+
+            let photo = "";
+
+            // Foto
+            // Selecionar a foto que a pessoa escolheu
+            const photoElement = formUsersCreate.querySelector<HTMLInputElement>("#form-create-photo");
+
+            if (photoElement) {
+
+                if (photoElement.files?.length) {
+
+                    const photoFile = photoElement.files[0];
+
+                    const reference = ref(storage, `users/${id}.png`);
+                    
+                    // Salvar a foto em um servidor (Firebase Storage)
+                    const uploadResult = await uploadBytes(reference, photoFile);
+
+                    console.log("Foto enviada com sucesso!");
+
+                    // Selecionar o caminho da foto
+                    const url = await getDownloadURL(uploadResult.ref);
+
+                    photo = url;
+
+                }
+
+            }
         
-            await setDoc(doc(database, "users", uuidv4()), {
+            await setDoc(doc(database, "users", id), {
                 name: formData.get("name"),
                 email: formData.get("email"),
                 job: formData.get("job"),
                 department: formData.get("department"),
                 status: formData.get("status"),
-                photo: formData.get("photo"),
+                photo,
                 register: new Date(),
             });
         

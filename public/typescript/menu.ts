@@ -1,3 +1,4 @@
+import { Modal } from "bootstrap";
 import { collection, getFirestore, onSnapshot } from "firebase/firestore";
 import { IMenu } from "./interfaces/Imenu";
 
@@ -75,15 +76,7 @@ onSnapshot(collection(database, "menus"), (data) => {
   menus = [];
 
   data.forEach(document => {
-    menus.push(document.data() as IMenu);
-    /*
-    const documentData = document.data();
-    menus.push({
-      href: documentData["href"],
-      icon: documentData["icon"],
-      name: documentData["name"],
-    });
-    */
+    menus.push(document.data() as IMenu);    
   });
 
   renderMenu();

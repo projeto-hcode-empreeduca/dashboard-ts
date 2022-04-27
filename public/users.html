@@ -146,11 +146,12 @@
               <div class="bg-gradient-primary shadow-primary border-radius-lg pt-4 pb-3 section-flex">
                 <h6 class="text-white text-capitalize">Usuários</h6>
 
+                <!-- data-bs-toggle="modal"
+                data-bs-target="#modal-users-create" -->
                 <button
                   type="button"
                   class="btn btn-primary"
-                  data-bs-toggle="modal"
-                  data-bs-target="#modal-users-create"
+                  id="open-modal-create"
                 >
                   Criar usuário
                 </button>
@@ -251,14 +252,8 @@
               </div>
 
               <div class="mb-3">
-                <label for="form-create-department" class="form-label">Foto</label>
-                <select class="form-select" aria-label="Default select example" name="photo" required>
-                  <option selected>Selecione a foto</option>
-                  <option value="drake.jpg">Drake</option>
-                  <option value="ivana-square.jpg">Ivana</option>
-                  <option value="ivana-squares.jpg">Ivana Squares</option>
-                  <option value="marie.jpg">Marie</option>
-                </select>
+                <label for="form-create-photo" class="form-label">Foto</label>
+                <input type="file" name="photo" id="form-create-photo" />
               </div>
 
               <div class="mb-3">

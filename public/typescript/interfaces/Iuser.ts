@@ -1,3 +1,5 @@
+import { Timestamp } from "firebase/firestore";
+
 export interface IUser {
     id?: string;
     name: string;
@@ -6,5 +8,6 @@ export interface IUser {
     job: string;
     department: string;
     status: boolean;
-    register: Date;
+    // register: Date;
+    register: Timestamp;
 }
