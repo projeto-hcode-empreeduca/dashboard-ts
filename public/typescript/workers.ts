@@ -1,6 +1,6 @@
 import { Modal } from "bootstrap";
 import { collection, deleteDoc, doc, getFirestore, onSnapshot, setDoc, updateDoc } from "firebase/firestore";
-import { getDownloadURL, getStorage, ref, uploadBytes } from "firebase/storage";
+import { deleteObject, getDownloadURL, getStorage, ref, uploadBytes } from "firebase/storage";
 import { v4 as uuidv4 } from "uuid";
 import { IUser } from "./interfaces/Iuser";
 
@@ -11,11 +11,20 @@ let users: IUser[] = [];
 
 const tableUsers = document.querySelector<HTMLTableElement>("table#table-users tbody");
 
-const modalUsersCreate = new Modal(document.querySelector('#modal-users-create') as HTMLElement, {});
+const modalElementCreate = document.querySelector('#modal-users-create') as HTMLElement;
+let modalUsersCreate: Modal;
+if (modalElementCreate) {
+    modalUsersCreate = new Modal(modalElementCreate, {});
+}
+
 const formUsersCreate = document.querySelector<HTMLFormElement>("#modal-users-create #form-users-create");
 const btnOpenModal = document.querySelector<HTMLButtonElement>("#open-modal-create");
 
-const modalUsersUpdate = new Modal(document.querySelector("#modal-users-update") as HTMLElement, {});
+const modalElementUpdate = document.querySelector("#modal-users-update") as HTMLElement;
+let modalUsersUpdate: Modal;
+if (modalElementUpdate) {
+    modalUsersUpdate = new Modal(modalElementUpdate, {});
+}
 const formUsersUpdate = document.querySelector<HTMLFormElement>("#form-users-update");
 
 // button - HTMLButtonElement
@@ -96,6 +105,20 @@ function renderUsers() {
                         }
     
                     }
+
+                    const imageElement = formUsersUpdate?.querySelector<HTMLImageElement>("#photo-user");
+
+                    if (imageElement) {
+
+                        if (item.photo) {
+                            imageElement.src = item.photo;
+                            imageElement.alt = item.name;
+                        } else {
+                            imageElement.src = "./assets/img/tesla-model-s.png";
+                            imageElement.alt = "Imagem do usuário";
+                        }
+
+                    }
     
                     modalUsersUpdate.show();
     
@@ -113,7 +136,7 @@ function renderUsers() {
             
                     if (confirm(`Deseja realmente excluir o usuário ${item.name}?`)) {
     
-                        await deleteDoc(doc(database, "users", String(item.id)));
+                        await deleteDoc(doc(database, "workers", String(item.id)));
     
                         tableRow.remove();
     
@@ -133,7 +156,7 @@ function renderUsers() {
 
 if (tableUsers) {
 
-    onSnapshot(collection(database, "users"), (data) => {
+    onSnapshot(collection(database, "workers"), (data) => {
 
         users = [];
     
@@ -229,7 +252,7 @@ if (tableUsers) {
 
             }
         
-            await setDoc(doc(database, "users", id), {
+            await setDoc(doc(database, "workers", id), {
                 name: formData.get("name"),
                 email: formData.get("email"),
                 job: formData.get("job"),
@@ -254,14 +277,35 @@ if (tableUsers) {
             e.preventDefault();
         
             const formData = new FormData(formUsersUpdate);
+
+            // O usuário já possui uma foto no Storage?
+            // SIM
+            let photo = formData.get("photo");
+            const photoElement = formUsersUpdate.querySelector<HTMLInputElement>("#form-update-photo");
+
+            if (photoElement) {
+
+                if (photoElement.files?.length) {
+
+                    await deleteObject(ref(storage, String(photo)));
+
+                    const file = photoElement.files[0];
+
+                    const upload = await uploadBytes(ref(storage, `users/${formData.get("id")}`), file);
+
+                    photo = await getDownloadURL(upload.ref);
+
+                }
+
+            }
         
-            await updateDoc(doc(database, "users", String(formData.get("id"))), {
+            await updateDoc(doc(database, "workers", String(formData.get("id"))), {
                 name: formData.get("name"),
                 email: formData.get("email"),
                 job: formData.get("job"),
                 department: formData.get("department"),
                 status: formData.get("status"),
-                photo: formData.get("photo"),
+                photo,
             });
         
             modalUsersUpdate.hide();

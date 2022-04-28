@@ -11,7 +11,7 @@
     "start": "npm run open-app",
     "test": "echo \"Error: no test specified\" && exit 1",
     "watch": "gulp-watch",
-    "sass": "sass assets/scss:assets/css --watch --no-source-map",
+    "sass": "sass public/assets/scss:public/assets/css --watch --no-source-map",
     "dev": "webpack --watch"
   },
   "repository": {

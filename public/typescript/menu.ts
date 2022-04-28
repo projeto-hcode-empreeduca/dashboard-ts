@@ -37,7 +37,11 @@ ulMenu.className = "navbar-nav";
 
 asideMenu.appendChild(divMenu);
 
-document.body.insertBefore(asideMenu, document.querySelector("#main"));
+const mainElement = document.querySelector("#main");
+
+if (mainElement) {
+  document.body.insertBefore(asideMenu, mainElement);
+}
 
 function renderMenu() {
 
