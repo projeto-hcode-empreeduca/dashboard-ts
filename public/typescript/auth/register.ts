@@ -39,6 +39,8 @@ if (formRegister) {
                     displayName: String(name),
                 }).then(() => {
                     console.log("Usuário criado!!!");
+
+                    localStorage.setItem("isLogged", "1");
                 
                     location.href = "./index.html";
                 }).catch((error) => {
