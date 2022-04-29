@@ -1,4 +1,4 @@
-import { createUserWithEmailAndPassword, getAuth } from "firebase/auth";
+import { createUserWithEmailAndPassword, getAuth, updateProfile } from "firebase/auth";
 
 const formRegister = document.querySelector("form#form-register") as HTMLFormElement;
 
@@ -31,11 +31,24 @@ if (formRegister) {
         const email = String(formData.get("email"));
         const password = String(formData.get("password"));
 
-        await createUserWithEmailAndPassword(auth, email, password);
+        createUserWithEmailAndPassword(auth, email, password)
+            .then((userCredential) => {
+                const { user } = userCredential;
 
-        location.href = "./index.html";
-
-        console.log("Usuário criado!!!");
+                updateProfile(user, {
+                    displayName: String(name),
+                }).then(() => {
+                    console.log("Usuário criado!!!");
+                
+                    location.href = "./index.html";
+                }).catch((error) => {
+                    console.error(error);
+                });
+                
+            })
+            .catch((error) => {
+                console.error(error);
+            });
 
     });
 

@@ -23728,6 +23728,23 @@ p {
   padding: 0.5em;
 }
 
+.alert {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.alert .btn {
+  border: 1px solid #fff;
+  margin: 0;
+  color: #fff;
+}
+
+.navbar-nav img {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+}
+
 .flatpickr-calendar {
   background: transparent;
   opacity: 0;
