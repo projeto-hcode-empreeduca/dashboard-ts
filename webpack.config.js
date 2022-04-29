@@ -5,6 +5,7 @@ module.exports = {
     entry: "./public/typescript/index.ts",
     output: {
         filename: "bundle.js",
+        path: path.join(__dirname, "public", "dist"),
     },
     resolve: {
         extensions: ['.ts', '.js'],

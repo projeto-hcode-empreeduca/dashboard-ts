@@ -9,7 +9,7 @@ footer.innerHTML = `
                 <div class="copyright text-center text-sm text-muted text-lg-start">
                     © ${new Date().getFullYear()},
                     desenvolvido <i class="fa fa-heart" aria-hidden="true"></i> por
-                    <a href="https://hcode.com.br" class="font-weight-bold text-white" target="_blank">Hcode Treinamentos</a>.
+                    <a href="https://hcode.com.br" class="font-weight-bold" target="_blank">Hcode Treinamentos</a>.
                 </div>
             </div>
             <div class="col-lg-6">
